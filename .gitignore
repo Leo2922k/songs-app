@@ -1,0 +1,26 @@
+# === General ===
+.env
+.DS_Store
+.vscode/
+.idea/
+
+# === Node ===
+node_modules/
+
+# === Build outputs ===
+dist/
+build/
+
+# === Drizzle / Database ===
+drizzle/
+pgdata/
+
+# === Backend specific ===
+backend/node_modules/
+backend/dist/
+backend/.env
+
+# === Frontend specific ===
+frontend/node_modules/
+frontend/dist/
+frontend/.env
