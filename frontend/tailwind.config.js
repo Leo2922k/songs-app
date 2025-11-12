@@ -8,4 +8,6 @@ export default {
     extend: {},
   },
   plugins: [require("tailwindcss-animate")],
+  backgroundColor: ['checked'],
+  borderColor: ['checked'],
 };

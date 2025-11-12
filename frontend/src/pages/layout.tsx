@@ -1,25 +1,54 @@
-import logo from "../assets/nocturneLogoNoBKGCropped.png"; 
- 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import logo from "../assets/logo/nocturne-high-resolution-logo-transparent.png"; 
+import { Button } from "@/components/ui/button";
+import '../index.css'
+import { Link } from "react-router-dom";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsAdmin(!!token);
+  }, []);
+
   return (
-    <div className="min-h-dvh flex flex-col bg-slate-900 text-slate-100">
-      <header className="bg-white shadow-sm sticky top-0 z-10">
+    <div className="min-h-dvh flex flex-col bg-[linear-gradient(to_bottom,_#3b6ea9_0%,_#d4c0a8_100%)] text-slate-100">
+      <header className="shadow-sm sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center gap-12">
           <div className="flex items-center gap-3">
-          <img
-            src={logo}
-            alt="nocturne Logo"
-            className="h-10 w-10 object-contain"
-          />
-        </div>
+            <img src={logo} alt="nocturne Logo" className="h-20 w-50 object-contain" />
+          </div>
 
-          <nav className="ml-auto flex items-center gap-8">
-            <a href="/" className="hover:text-blue-600">Home</a>
-            <a href="/login" className="hover:text-blue-600">Admin</a>
-            <a href="/add-song" className="hover:text-blue-600">Add Song</a>
+          <nav className="ml-auto flex items-center gap-3">
+            <Button asChild variant="ghostOutline">
+              <Link to="/">Home</Link>
+            </Button>
+
+            {!isAdmin && (<Button asChild variant="ghostOutline">
+              <Link to="/login">Login</Link>
+            </Button>)}
+
+            {isAdmin && (
+              <>
+                <Button asChild variant="ghostOutline">
+                  <Link to="/add-song">Add Song</Link>
+                </Button>
+
+                <Button
+                  variant="ghostOutline"   
+                  onClick={() => {
+                    localStorage.removeItem("token");
+                    setIsAdmin(false);
+                    window.location.href = "/";
+                  }}
+                >
+                  Logout
+                </Button>
+              </>
+            )}
           </nav>
+
         </div>
       </header>
 
@@ -29,7 +58,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       <footer className="bg-white border-t mt-10">
         <div className="max-w-6xl mx-auto px-6 py-4 text-sm text-gray-500 text-center">
-          © {new Date().getFullYear()} YourTune — Made by Leo 🎧
+          © {new Date().getFullYear()} Nocturne — Made by Leo 🎧
         </div>
       </footer>
     </div>

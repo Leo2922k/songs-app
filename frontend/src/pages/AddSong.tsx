@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import Layout from "../pages/layout";
+import logo from "../assets/addSong.png"; 
 
 export default function AddSong() {
   const [title, setTitle] = useState("");
@@ -43,6 +44,9 @@ export default function AddSong() {
     <Layout>
       <div className="flex justify-center items-center min-h-dvh">
         <Card className="p-6 w-96">
+        <div className="flex items-center justify-center gap-4">
+          <img src={logo} alt="signin" className="h-30 w-30 object-contain" />
+        </div>
           <CardContent className="flex flex-col space-y-3">
             <h2 className="text-xl font-semibold text-center">Add Song</h2>
             <Input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />

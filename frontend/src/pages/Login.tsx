@@ -4,6 +4,7 @@ import api from "../api/axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Layout from "../pages/layout";
+import logo from "../assets/signin.png"; 
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -25,6 +26,9 @@ export default function Login() {
     <Layout>
       <div className="flex flex-col items-center justify-center min-h-dvh">
         <div className="p-8 border rounded-md shadow-md w-80">
+          <div className="flex items-center justify-center gap-4">
+            <img src={logo} alt="signin" className="h-30 w-30 object-contain" />
+          </div>
           <h2 className="text-xl font-semibold mb-4 text-center">Admin Login</h2>
           <Input
             placeholder="Username"
