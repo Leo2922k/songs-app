@@ -1,13 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: "class", 
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      bg: ['dark']
+    },
   },
   plugins: [require("tailwindcss-animate")],
-  backgroundColor: ['checked'],
-  borderColor: ['checked'],
 };
