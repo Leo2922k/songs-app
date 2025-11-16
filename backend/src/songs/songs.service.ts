@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { eq, ilike } from 'drizzle-orm';
+import { and, eq, ilike, or } from 'drizzle-orm';
 import { songs } from '../db/schema';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { sql } from "drizzle-orm";
@@ -8,13 +8,26 @@ import { sql } from "drizzle-orm";
 export class SongsService {
   constructor(@Inject('DRIZZLE') private db: any) {}
 
-  async getAll(page = 1, query = '') {
+  async getAll(page = 1, search = '', genre = '') {
     const limit = 10;
     const offset = (page - 1) * limit;
 
-    const where = query
-      ? ilike(songs.title, `%${query}%`)
-      : undefined;
+    const conditions: any[] = [];
+
+    if (search) {
+      const searchConditions = [
+        ilike(songs.title, `%${search}%`),
+        ilike(songs.artist, `%${search}%`)
+      ];
+
+      conditions.push(or(...searchConditions));
+    }
+
+    if (genre) {
+      conditions.push(ilike(songs.genre, `%${genre}%`));
+    }
+
+    const where = conditions.length > 0 ? and(...conditions) : undefined;
 
     const data = await this.db
       .select()
@@ -31,12 +44,10 @@ export class SongsService {
     const totalCount = Number(totalCountResult[0].count);
     const totalPages = Math.ceil(totalCount / limit);
 
-    return {
-      data,
-      totalPages,
-      page,
-    };
+    return { data, totalPages, page };
   }
+
+
 
 
   async addSong(data: { title: string; artist: string; cover_url?: string; genre?: string; song_url?: string }) {

@@ -17,10 +17,10 @@ interface Song {
 }
 
 export default function SongsList() {
+  const [search, setSearch] = useState("");
   const [songs, setSongs] = useState<Song[]>([]);
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [genre, setGenre] = useState("");
   const [page, setPage] = useState(1);
-  const [query, setQuery] = useState("");
   const [totalPages, setTotalPages] = useState(1);
   const { isAdmin } = useAuth();
 
@@ -29,7 +29,8 @@ export default function SongsList() {
       .get("/songs", {
         params: {
           page,
-          query
+          search,
+          genre
         }
       })
       .then((res) => {
@@ -37,7 +38,7 @@ export default function SongsList() {
         setTotalPages(res.data.totalPages || 1);
       })
       .catch((err) => console.error(err));
-  }, [page, query]);
+  }, [page, search, genre]);
 
 
   const shell = "w-full mx-auto max-w-screen-2xl";
@@ -46,7 +47,7 @@ export default function SongsList() {
   const fetchSongs = () => {
   api
     .get("/songs", {
-      params: { page, query }
+      params: { page, search }
     })
     .then((res) => {
       setSongs(res.data.data || res.data);
@@ -71,18 +72,57 @@ export default function SongsList() {
   return (
     <Layout>
       <div className="w-full flex flex-col items-center">
-        <div className="flex justify-between items-center mb-6 w-full max-w-6xl">
-          <h2 className="text-2xl font-semibold">All Songs</h2>
-            <input
-            placeholder="Search songs"
-            className="px-4 py-2 rounded-md bg-slate-800 text-slate-100 focus:outline-none border border-slate-700 w-full max-w-xs ml-4"
-            value={query}
-            onChange={(e) => {
-              setPage(1);          
-              setQuery(e.target.value);
-            }}
-            />
-        </div>
+      <div className="flex justify-between items-center mb-6 w-full max-w-6xl">
+
+        <h2 className="text-2xl font-semibold">All Songs</h2>
+          <div className="flex items-center gap-4 ml-auto">
+        
+              <input
+                placeholder="Search songs"
+                className="px-4 py-2 rounded-md bg-slate-800 text-slate-100 
+                          focus:outline-none border border-slate-700 w-full max-w-xs"
+                value={search}
+                onChange={(e) => {
+                  setPage(1);
+                  setSearch(e.target.value);
+                }}
+              />
+
+              <select
+                className="px-3 py-2 rounded-md bg-slate-800 text-white 
+                          border border-slate-700 focus:outline-none"
+                value={genre}
+                onChange={(e) => {
+                  setPage(1);
+                  setGenre(e.target.value);
+                }}
+              >
+                <option value="">All genres</option>
+                <option value="Pop">Pop</option>
+                <option value="Rock">Rock</option>
+                <option value="Hip Hop">Hip Hop</option>
+                <option value="R&B">R&B</option>
+                <option value="Electronic">Electronic</option>
+                <option value="Dance">Dance</option>
+                <option value="Indie">Indie</option>
+                <option value="Alternative">Alternative</option>
+                <option value="Jazz">Jazz</option>
+                <option value="Blues">Blues</option>
+                <option value="Classical">Classical</option>
+                <option value="Soul">Soul</option>
+                <option value="Reggae">Reggae</option>
+                <option value="Metal">Metal</option>
+                <option value="Punk">Punk</option>
+                <option value="Folk">Folk</option>
+                <option value="Country">Country</option>
+                <option value="Latin">Latin</option>
+                <option value="Afrobeats">Afrobeats</option>
+
+              </select>
+
+          </div>
+      </div>
+
 
         <div className={shell}>
           <div className={content}>

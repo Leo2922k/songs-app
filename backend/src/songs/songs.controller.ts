@@ -10,13 +10,13 @@ import { UnauthorizedException } from '@nestjs/common';
 export class SongsController {
   constructor(private readonly songsService: SongsService) {}
 
-  @Get()
-  async getAll(
-    @Query('page') page?: string,
-    @Query('query') query?: string,
+ @Get()
+  getAll(
+    @Query('page') pageNum: number,
+    @Query('search') search: string,
+    @Query('genre') genre: string,
   ) {
-    const pageNum = page ? parseInt(page, 10) : 1;
-    return this.songsService.getAll(pageNum, query || '');
+    return this.songsService.getAll(pageNum, search || '', genre || '');
   }
 
 
