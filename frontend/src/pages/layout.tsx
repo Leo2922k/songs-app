@@ -1,17 +1,12 @@
-import React, { useEffect, useState } from "react";
 import logo from "../assets/logo/nocturne-high-resolution-logo-transparent.png"; 
 import { Button } from "@/components/ui/button";
 import '../index.css'
 import { Link } from "react-router-dom";
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsAdmin(!!token);``
-  }, []);
+  const { isAdmin, logout } = useAuth();
 
   return (
     
@@ -38,16 +33,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   <Link to="/add-song">Add Song</Link>
                 </Button>
 
-                <Button
-                  variant="ghostOutline"   
-                  onClick={() => {
-                    localStorage.removeItem("token");
-                    setIsAdmin(false);
-                    window.location.href = "/";
-                  }}
-                >
-                  Logout
-                </Button>
+              <Button
+                variant="ghostOutline"
+                onClick={() => {
+                  logout();
+                  window.location.href = "/";
+                }}
+              >
+                Logout
+              </Button>
+
               </>
             )}
           </nav>

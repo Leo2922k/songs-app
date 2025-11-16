@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { eq, ilike } from 'drizzle-orm';
 import { songs } from '../db/schema';
 import { drizzle } from 'drizzle-orm/node-postgres';
+import { sql } from "drizzle-orm";
 
 @Injectable()
 export class SongsService {
@@ -15,15 +16,28 @@ export class SongsService {
       ? ilike(songs.title, `%${query}%`)
       : undefined;
 
-    const result = await this.db
+    const data = await this.db
       .select()
       .from(songs)
       .where(where)
       .limit(limit)
       .offset(offset);
 
-    return result;
+    const totalCountResult = await this.db
+      .select({ count: sql<number>`count(*)` })
+      .from(songs)
+      .where(where);
+
+    const totalCount = Number(totalCountResult[0].count);
+    const totalPages = Math.ceil(totalCount / limit);
+
+    return {
+      data,
+      totalPages,
+      page,
+    };
   }
+
 
   async addSong(data: { title: string; artist: string; cover_url?: string; genre?: string; song_url?: string }) {
     const [song] = await this.db
