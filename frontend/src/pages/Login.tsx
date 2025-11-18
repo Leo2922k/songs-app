@@ -16,7 +16,7 @@ export default function Login() {
       const res = await api.post("/auth/login", { username, password });
       localStorage.setItem("token", res.data.access_token);
       alert("Login successful!");
-      window.location.href = "/add-song";
+      window.location.href = "/";
     } catch (err) {
       setError("Invalid credentials");
     }

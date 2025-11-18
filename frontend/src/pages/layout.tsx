@@ -2,7 +2,6 @@ import logo from "../assets/logo/nocturne-high-resolution-logo-transparent.png";
 import { Button } from "@/components/ui/button";
 import '../index.css'
 import { Link } from "react-router-dom";
-import ThemeToggle from "@/components/ui/ThemeToggle";
 import { useAuth } from "@/context/AuthContext";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -10,15 +9,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     
-    <div className="min-h-dvh flex flex-col bg-[linear-gradient(to_bottom,_#3b6ea9_0%,_#d4c0a8_100%)] dark:bg-[linear-gradient(to_bottom,_#0a0f1c_0%,_#1c1f26_100%)] text-slate-100">
-      <header className="shadow-sm sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center gap-12">
+    <div className="min-h-dvh flex flex-col bg-[linear-gradient(to_bottom,_#3b6ea9_0%,_#d4c0a8_100%)] text-slate-100">
+      <header className="top-0 z-10 backdrop-blur-md bg-slate-900/70 border-b border-slate-700 shadow-md">
+        <div className="max-w-6xl mx-auto px-6 py-2 flex items-center gap-12">
           <div className="flex items-center gap-3">
-            <img src={logo} alt="nocturne Logo" className="h-20 w-50 object-contain" />
+            <img src={logo} alt="nocturne Logo" className="h-15 w-50 object-contain" />
           </div>
 
           <nav className="ml-auto flex items-center gap-3">
-            <ThemeToggle/> 
             <Button asChild variant="ghostOutline">
               <Link to="/">Home</Link>
             </Button>

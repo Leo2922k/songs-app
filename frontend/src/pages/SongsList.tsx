@@ -142,7 +142,7 @@ export default function SongsList() {
                     <img
                       src={song.cover_url}
                       alt={song.title}
-                      className="w-[400px] h-[400px] object-cover rounded-xl transition-all duration-300 hover:blur-sm"
+                      className="w-full aspect-square object-cover rounded-xl transition-all duration-300 hover:blur-sm"
                     />
                     <div className="absolute inset-0 bg-black/0 hover:bg-black/30 transition-all duration-300" />
                   </div>
