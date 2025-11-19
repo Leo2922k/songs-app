@@ -9,7 +9,7 @@ export class SongsService {
   constructor(@Inject('DRIZZLE') private db: any) {}
 
   async getAll(page = 1, search = '', genre = '') {
-    const limit = 10;
+    const limit = 12;
     const offset = (page - 1) * limit;
 
     const conditions: any[] = [];

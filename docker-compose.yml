@@ -1,17 +1,50 @@
-version: '3.8'
 services:
-  db:
-    image: postgres:15
-    container_name: songs_db
+  postgres:
+    image: postgres:15-alpine
+    container_name: songsapp_postgres
     restart: always
+    env_file:
+      - ./.env.prod
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: songsdb
-    ports:
-      - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  backend:
+    build: ./backend
+    container_name: songsapp_backend
+    restart: always
+    depends_on:
+      - postgres
+    env_file:
+      - ./.env.prod
+    environment:
+      DATABASE_URL: postgres://admin:admin@postgres:5432/songsdb?sslmode=disable
+      JWT_SECRET: supersecret
+      ADMIN_EMAIL: leo
+      ADMIN_USERNAME: leo
+      ADMIN_PASSWORD: "0000"
+      FRONTEND_URL: http://localhost
+      POTIFY_CLIENT_ID: a652735a8225429e8a4d0b17561e9be0
+      SPOTIFY_CLIENT_SECRET: cad9ad0fc32b4cc4b6f10584fb3c47cc
+      SPOTIFY_PLAYLIST_ID: 3vMy44Kc33Aa6Dzrs58VFj
+    ports:
+      - "3001:3000"
+
+  frontend:
+    build: ./frontend
+    container_name: songsapp_frontend
+    restart: always
+    depends_on:
+      - backend
+    environment:
+      VITE_API_URL: http://backend:3000
+    ports:
+      - "80:80"
 
 volumes:
-  pgdata:
+  postgres_data:

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import api  from "../api/axios";
 import Layout from "../pages/layout";
-import { LayoutGrid, List } from "lucide-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import deleteRed from "../assets/deleteRed.svg"; 
 import deleteWhite from "../assets/deleteWhite.svg"; 
@@ -34,8 +33,10 @@ export default function SongsList() {
         }
       })
       .then((res) => {
-        setSongs(res.data.data || res.data); 
-        setTotalPages(res.data.totalPages || 1);
+      const { data, totalPages } = res.data;
+      setSongs(Array.isArray(data) ? data : []);
+      setTotalPages(totalPages || 1);
+      document.title = "Nocturne | All Songs";
       })
       .catch((err) => console.error(err));
   }, [page, search, genre]);
@@ -50,9 +51,11 @@ export default function SongsList() {
       params: { page, search }
     })
     .then((res) => {
-      setSongs(res.data.data || res.data);
-      setTotalPages(res.data.totalPages || 1);
+      const { data, totalPages } = res.data;   // backend shape
+      setSongs(Array.isArray(data) ? data : []); 
+      setTotalPages(totalPages || 1);
     })
+
     .catch((err) => console.error(err));
 };
 
@@ -67,6 +70,7 @@ export default function SongsList() {
     console.error(err);
   }
   };
+  
 
 
   return (

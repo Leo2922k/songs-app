@@ -1,5 +1,5 @@
 // src/pages/Login.tsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api/axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,6 +21,10 @@ export default function Login() {
       setError("Invalid credentials");
     }
   };
+  
+  useEffect(() => {
+    document.title = "Nocturne | Login";
+  }, []);
 
   return (
     <Layout>

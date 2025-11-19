@@ -41,6 +41,35 @@ async function fetchPlaylist() {
   return res.data.items;
 }
 
+let genres: Array<string> = [
+  'Pop',
+  'Rock',
+  'Hip Hop',
+  'R&B',
+  'Electronic',
+  'Dance',
+  'Indie',
+  'Alternative',
+  'Jazz',
+  'Blues',
+  'Classical',
+  'Soul',
+  'Reggae',
+  'Metal',
+  'Punk',
+  'Folk',
+  'Country',
+  'Latin',
+  'Afrobeats'
+]
+
+function randGenre() {
+
+  const randomIndex = Math.floor(Math.random() * genres.length);
+  const randomElement = genres[randomIndex];
+
+  return randomElement;
+}
 async function seed() {
 
     const items = await fetchPlaylist();
@@ -55,7 +84,7 @@ async function seed() {
       title: track.name,
       artist: track.artists.map((a: any) => a.name).join(", "),
       cover_url: track.album.images[0]?.url || "",
-      genre: "Unknown", 
+      genre: randGenre(), 
       song_url: track.external_urls.spotify,
     });
 

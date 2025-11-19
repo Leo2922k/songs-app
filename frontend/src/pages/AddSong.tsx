@@ -1,5 +1,5 @@
 // src/pages/AddSong.tsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api/axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,10 @@ export default function AddSong() {
   const [song_url, setSongUrl] = useState("");
   const [genre, setGenre] = useState("");
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    document.title = "Nocturne | Add Song";
+  }, []);
 
   const handleSubmit = async () => {
     try {
@@ -39,6 +43,7 @@ export default function AddSong() {
       setMessage("❌ Failed to add song");
     }
   };
+  
 
   return (
     <Layout>
