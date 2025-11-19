@@ -27,8 +27,15 @@ Main features:
 ```bash
 git clone <this-repo-url>
 cd CM_P01_SongsApp
+```
 
+2. **Build & start everything**
+```bash
 docker compose up --build
+```
 
+3. **Build & start everything**
+```bash
 docker compose exec backend npm run migrate
 docker compose exec backend npm run seed:spotify 
+```
