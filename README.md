@@ -29,12 +29,23 @@ git clone <this-repo-url>
 cd CM_P01_SongsApp
 ```
 
-2. **Build & start everything**
+2. Backend env
+Create backend/.env:
+```bash
+DATABASE_URL=postgres://admin:admin@localhost:5432/songsdb
+JWT_SECRET=secret123
+PORT=3000
+SPOTIFY_CLIENT_ID=your_client_id
+SPOTIFY_CLIENT_SECRET=your_client_secret
+SPOTIFY_PLAYLIST_ID=your_list_id
+```
+
+3. **Build & start everything**
 ```bash
 docker compose up --build
 ```
 
-3. **Build & start everything**
+4. **Build & start everything**
 ```bash
 docker compose exec backend npm run migrate
 docker compose exec backend npm run seed:spotify 
